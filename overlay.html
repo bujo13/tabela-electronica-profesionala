@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ro">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tabela electronică profesională — Afișare</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:transparent;font-family:Arial,sans-serif;overflow:hidden}
+#board{display:inline-flex;align-items:stretch;color:#fff;background:rgba(128,128,128,.50);border:1px solid rgba(255,255,255,.16);border-radius:7px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:100%}
+.team{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 14px;min-width:150px;background:var(--team-color);font-size:clamp(16px,2.1vw,30px);font-weight:700;text-shadow:0 1px 2px #000;white-space:nowrap}
+.name{overflow:hidden;text-overflow:ellipsis;max-width:24vw}.score{font-size:clamp(24px,3vw,42px);font-weight:800;min-width:1ch;text-align:center}
+#clock{display:flex;align-items:center;justify-content:center;padding:8px 16px;min-width:100px;color:#fff;font-size:clamp(22px,2.8vw,38px);font-weight:800;font-variant-numeric:tabular-nums;text-shadow:0 1px 3px #000;background:rgba(70,70,70,.25)}
+@media(max-width:500px){.team{padding:7px 8px;gap:7px;min-width:0}.name{max-width:25vw}#clock{padding:7px 9px;min-width:75px}}
+</style></head>
+<body>
+<div id="board">
+ <div class="team" id="home" style="--team-color:#1769aa"><span class="name" id="homeName">Gazde</span><span class="score" id="homeScore">0</span></div>
+ <div id="clock">00:00</div>
+ <div class="team" id="away" style="--team-color:#b3261e"><span class="name" id="awayName">Oaspeți</span><span class="score" id="awayScore">0</span></div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+function format(ms){const total=Math.floor(Math.max(0,ms)/1000);return String(Math.floor(total/60)).padStart(2,"0")+":"+String(total%60).padStart(2,"0")}
+io().on("state",s=>{
+ $("homeName").textContent=s.homeName;$("awayName").textContent=s.awayName;
+ $("homeScore").textContent=s.homeScore;$("awayScore").textContent=s.awayScore;
+ $("home").style.setProperty("--team-color",s.homeColor);$("away").style.setProperty("--team-color",s.awayColor);
+ $("clock").textContent=format(s.elapsedMs);
+});
+</script></body></html>

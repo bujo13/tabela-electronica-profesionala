@@ -1,0 +1,14 @@
+{
+  "name": "tabela-electronica-profesionala",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tabela sportiva cu panou de comanda si overlay public",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
